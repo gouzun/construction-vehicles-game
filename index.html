@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Construction Vehicles & Trucks - Mobile Web Game</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚜</text></svg>" />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body class="bg-slate-900 text-slate-800 antialiased overflow-hidden min-h-screen flex flex-col font-sans">
+    
+    <!-- Top Simulator Control Bar -->
+    <header id="simulator-bar" class="w-full bg-slate-950/90 backdrop-blur border-b border-slate-800 px-3 py-2 text-white flex flex-wrap items-center justify-between gap-2 z-40 select-none">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center gap-2">
+        <span class="text-2xl animate-bounce-short">🚜</span>
+        <div>
+          <h1 class="text-sm font-extrabold tracking-tight text-white flex items-center gap-1.5">
+            <span>Trucks & Construction</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-400 border border-amber-500/40 font-mono">v1.0</span>
+          </h1>
+          <p class="text-[11px] text-slate-400 font-medium hidden sm:block">
+            Kids Mobile Game Simulator
+          </p>
+        </div>
+      </div>
+
+      <!-- Viewport Mode Toggles -->
+      <div class="flex items-center gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs">
+        <span class="text-[11px] text-slate-400 font-semibold px-1.5 hidden md:inline">Viewport:</span>
+        <button id="vp-portrait" class="vp-btn px-2.5 py-1 rounded-lg font-bold bg-amber-500 text-slate-950 transition-all flex items-center gap-1 cursor-pointer" title="Mobile Portrait (390×844)">
+          <span>📱</span>
+          <span class="hidden sm:inline">Portrait</span>
+        </button>
+        <button id="vp-landscape" class="vp-btn px-2.5 py-1 rounded-lg font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition-all flex items-center gap-1 cursor-pointer" title="Mobile Landscape (844×390)">
+          <span>🔄</span>
+          <span class="hidden sm:inline">Landscape</span>
+        </button>
+        <button id="vp-tablet" class="vp-btn px-2.5 py-1 rounded-lg font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition-all flex items-center gap-1 cursor-pointer" title="Tablet iPad (768×1024)">
+          <span>💻</span>
+          <span class="hidden sm:inline">Tablet</span>
+        </button>
+        <button id="vp-fluid" class="vp-btn px-2.5 py-1 rounded-lg font-bold text-slate-300 hover:text-white hover:bg-slate-800 transition-all flex items-center gap-1 cursor-pointer" title="Fullscreen Fluid">
+          <span>🖥️</span>
+          <span class="hidden sm:inline">Fluid</span>
+        </button>
+      </div>
+
+      <!-- Settings & Localization -->
+      <div class="flex items-center gap-2">
+        <!-- Language Switcher -->
+        <div class="flex items-center bg-slate-900 rounded-xl p-0.5 border border-slate-800 text-xs">
+          <button id="lang-en" class="lang-btn px-2 py-1 rounded-lg font-bold bg-slate-800 text-amber-400 transition-all">EN</button>
+          <button id="lang-zh" class="lang-btn px-2 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all">中文</button>
+          <button id="lang-ms" class="lang-btn px-2 py-1 rounded-lg font-bold text-slate-400 hover:text-white transition-all">BM</button>
+        </div>
+
+        <!-- Audio Mute Toggle -->
+        <button id="btn-toggle-sound" class="p-1.5 px-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-bold text-slate-200 flex items-center gap-1 transition-all cursor-pointer">
+          <span id="sound-icon">🔊</span>
+          <span id="sound-text" class="hidden sm:inline">Sound</span>
+        </button>
+
+        <!-- Home Button -->
+        <button id="btn-home" class="p-1.5 px-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-black flex items-center gap-1 transition-all cursor-pointer" title="Back to vehicle select">
+          <span>🏠</span>
+          <span class="hidden sm:inline">Home</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Stage Wrapper (centers device bezel) -->
+    <main id="stage-wrapper" class="flex-1 w-full flex items-center justify-center p-2 sm:p-4 overflow-auto bg-slate-900/60 relative">
+      
+      <!-- Simulated Mobile Device Container -->
+      <div id="device-container" class="device-frame-portrait bg-white relative overflow-hidden transition-all duration-300 flex flex-col">
+        
+        <!-- Mobile Device Dynamic Island / Speaker Notch (only visible in device mode) -->
+        <div id="device-notch" class="absolute top-2 left-1/2 -translate-x-1/2 w-28 h-4 bg-slate-900 rounded-full z-30 pointer-events-none flex items-center justify-center">
+          <div class="w-2.5 h-2.5 rounded-full bg-slate-800 mr-2"></div>
+          <div class="w-1.5 h-1.5 rounded-full bg-slate-700"></div>
+        </div>
+
+        <!-- Inner Game Stage Content Mounted Here -->
+        <div id="game-app-root" class="w-full h-full flex-1 flex flex-col pt-5 overflow-hidden">
+          <!-- Dynamic Stage Content Injected via JS -->
+        </div>
+
+      </div>
+
+    </main>
+
+    <!-- Script Entrypoint -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,78 @@
+/* Main application and game styling */
+
+@keyframes bounceShort {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes pingOnce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-bounce-short {
+  animation: bounceShort 2s infinite ease-in-out;
+}
+
+.animate-ping-once {
+  animation: pingOnce 0.3s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Simulated Device Frames */
+.device-frame-portrait {
+  width: 390px;
+  height: 844px;
+  max-height: calc(100vh - 80px);
+  border-radius: 44px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3), 0 0 0 12px #1e293b, 0 0 0 14px #334155;
+}
+
+.device-frame-landscape {
+  width: 844px;
+  height: 390px;
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 80px);
+  border-radius: 44px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3), 0 0 0 12px #1e293b, 0 0 0 14px #334155;
+}
+
+.device-frame-tablet {
+  width: 768px;
+  height: 980px;
+  max-height: calc(100vh - 80px);
+  border-radius: 36px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.25), 0 0 0 14px #0f172a, 0 0 0 16px #334155;
+}
+
+.device-frame-fluid {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
