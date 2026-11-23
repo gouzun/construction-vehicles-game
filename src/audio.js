@@ -16,6 +16,10 @@ function getContext() {
   return audioCtx;
 }
 
+export function getCtx() {
+  return getContext();
+}
+
 export function isSoundEnabled() {
   return soundEnabled;
 }

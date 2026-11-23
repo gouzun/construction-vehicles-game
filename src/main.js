@@ -3,10 +3,7 @@ import { gameState, VIEWPORTS } from './state.js';
 import { initLanguage, setLanguage, getLanguage, t } from './i18n.js';
 import { initSoundSettings, setSoundEnabled, isSoundEnabled, playDing } from './audio.js';
 import { renderSelectStage } from './stages/select.js';
-import { renderAssemblyStage } from './stages/assembly.js';
-import { renderFuelingStage } from './stages/fueling.js';
-import { renderSiteStage } from './stages/site.js';
-import { renderWashStage } from './stages/wash.js';
+import { renderCanvasGameStage, cleanupCanvasGame } from './stages/canvas_stage.js';
 
 // DOM elements
 const root = document.getElementById('game-app-root');
@@ -94,25 +91,12 @@ function renderCurrentStage() {
   const state = gameState.getState();
   root.innerHTML = '';
 
-  switch (state.stage) {
-    case 'select':
-      renderSelectStage(root);
-      break;
-    case 'assembly':
-      renderAssemblyStage(root);
-      break;
-    case 'fueling':
-      renderFuelingStage(root);
-      break;
-    case 'site':
-      renderSiteStage(root);
-      break;
-    case 'wash':
-      renderWashStage(root);
-      break;
-    default:
-      renderSelectStage(root);
-      break;
+  if (state.stage === 'select') {
+    cleanupCanvasGame();
+    renderSelectStage(root);
+  } else {
+    // Stages: assembly, fueling, site, wash all run on 60FPS canvas engine!
+    renderCanvasGameStage(root);
   }
 }
 
