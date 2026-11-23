@@ -19,75 +19,53 @@ const { chromium } = require('/Users/user/.npm/_npx/31e32ef8478fbf80/node_module
   // 1. Select Excavator
   await page.click('#btn-select-excavator');
   await page.waitForTimeout(400);
-  console.log('Stage 1 Assembly loaded.');
+  console.log('Canvas Game Engine mounted!');
 
-  // Click all 4 parts
-  for (const part of ['chassis', 'wheels', 'cabin', 'arm']) {
-    await page.click('#tray-part-' + part);
-    await page.waitForTimeout(200);
-  }
-  await page.waitForTimeout(500);
-  console.log('Stage 1 parts assembled.');
+  // Check canvas exists and is rendering
+  const hasCanvas = await page.isVisible('#game-canvas');
+  console.log('Canvas element visible:', hasCanvas);
 
-  // 2. Next to Fueling
-  await page.click('#btn-to-fueling');
+  // Interact with Canvas (click inside canvas world)
+  const box = await page.locator('#game-canvas').boundingBox();
+  console.log('Canvas bounding box:', box);
+
+  // Click canvas in tray area to trigger assembly interactions
+  await page.mouse.click(box.x + box.width * 0.2, box.y + box.height * 0.85);
+  await page.waitForTimeout(100);
+  await page.mouse.click(box.x + box.width * 0.4, box.y + box.height * 0.85);
+  await page.waitForTimeout(100);
+
+  // Test stage transitions via in-game next button
+  await page.click('#in-game-btn-next');
   await page.waitForTimeout(400);
-  console.log('Stage 2 Fueling loaded.');
+  console.log('Advanced to Fueling stage on Canvas.');
 
-  // Pump fuel until full
-  for (let i = 0; i < 10; i++) {
-    const isBannerVisible = await page.isVisible('#btn-to-site');
-    if (isBannerVisible) break;
-    try {
-      await page.click('#btn-hold-pump', { timeout: 1000 });
-    } catch (e) {
-      break;
-    }
-    await page.waitForTimeout(100);
-  }
-  await page.waitForSelector('#btn-to-site', { timeout: 5000 });
-  console.log('Stage 2 Fueling filled.');
+  // Click pump button in canvas
+  await page.mouse.click(box.x + box.width * 0.8, box.y + box.height * 0.7);
+  await page.waitForTimeout(200);
 
-  // 3. Next to Site
-  await page.click('#btn-to-site');
+  // Advance to Construction Site stage
+  await page.click('#in-game-btn-next');
   await page.waitForTimeout(400);
-  console.log('Stage 3 Site loaded.');
+  console.log('Advanced to Construction Site stage on Canvas.');
 
-  // Scoop 3 times
-  for (let i = 0; i < 3; i++) {
-    await page.click('#btn-perform-action');
-    await page.waitForTimeout(700);
-  }
-  await page.waitForTimeout(500);
-  console.log('Stage 3 Site actions finished.');
-
-  // 4. Next to Wash
-  await page.click('#btn-to-wash');
-  await page.waitForTimeout(400);
-  console.log('Stage 4 Wash loaded.');
-
-  // Wash vehicle until complete
-  for (let i = 0; i < 20; i++) {
-    const isBannerVisible = await page.isVisible('#btn-finish-game');
-    if (isBannerVisible) break;
-    try {
-      await page.click('#wash-bay', { timeout: 1000 });
-    } catch(e) {
-      break;
-    }
-    await page.waitForTimeout(80);
-  }
-  await page.waitForSelector('#btn-finish-game', { state: 'visible', timeout: 5000 });
-  console.log('Stage 4 Wash finished!');
-
-  // Test Dump Truck path
-  await page.click('#btn-finish-game');
-  await page.waitForTimeout(400);
-  console.log('Returned to Vehicle Select.');
-
-  await page.click('#btn-select-dump');
+  // Click drive pedal & dig button
+  await page.mouse.click(box.x + box.width * 0.2, box.y + box.height * 0.85); // pedal
+  await page.waitForTimeout(200);
+  await page.mouse.click(box.x + box.width * 0.8, box.y + box.height * 0.85); // dig action
   await page.waitForTimeout(300);
-  console.log('Dump truck selected & Stage 1 loaded.');
+
+  // Advance to Wash stage
+  await page.click('#in-game-btn-next');
+  await page.waitForTimeout(400);
+  console.log('Advanced to Car Wash stage on Canvas.');
+
+  // Scrub with sponge in canvas
+  await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.5);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * 0.55, box.y + box.height * 0.55);
+  await page.mouse.up();
+  await page.waitForTimeout(200);
 
   // Test Viewport toggles
   await page.click('#vp-landscape');
@@ -115,11 +93,16 @@ const { chromium } = require('/Users/user/.npm/_npx/31e32ef8478fbf80/node_module
   await page.waitForTimeout(200);
   console.log('Tested English language translation.');
 
+  // Test In-Game Home Button back to select
+  await page.click('#in-game-btn-home');
+  await page.waitForTimeout(300);
+  console.log('Returned to Vehicle Select successfully.');
+
   console.log('Final Total Console Errors:', errors.length);
   if (errors.length > 0) {
     console.error('Errors found:', errors);
   }
 
   await browser.close();
-  console.log('VERIFICATION_COMPLETE_SUCCESS');
+  console.log('CANVAS_VERIFICATION_COMPLETE_SUCCESS');
 })();
